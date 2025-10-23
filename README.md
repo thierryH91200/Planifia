@@ -1,5 +1,13 @@
 Certainly! Here is a summary of the application as understood from the provided code:
 
+
+<p align="center">
+<img src="Doc/Capture1.png" alt="Capture1">
+<p align="center">
+<em>Welcome</em>
+</p>
+</p>
+
 ⸻
 
 Application Summary

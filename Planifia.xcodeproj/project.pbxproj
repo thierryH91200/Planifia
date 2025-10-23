@@ -24,6 +24,11 @@
 			path = Planifia;
 			sourceTree = "<group>";
 		};
+		039D6A842EAA748700DE16F3 /* Doc */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Doc;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +46,7 @@
 		039D6A542EAA709700DE16F3 = {
 			isa = PBXGroup;
 			children = (
+				039D6A842EAA748700DE16F3 /* Doc */,
 				039D6A6D2EAA70A700DE16F3 /* README_fr.md */,
 				039D6A5F2EAA709700DE16F3 /* Planifia */,
 				039D6A5E2EAA709700DE16F3 /* Products */,
@@ -73,6 +79,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				039D6A5F2EAA709700DE16F3 /* Planifia */,
+				039D6A842EAA748700DE16F3 /* Doc */,
 			);
 			name = Planifia;
 			packageProductDependencies = (
