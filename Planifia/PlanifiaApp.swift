@@ -18,6 +18,7 @@ struct MyUndoApp: App {
             let storeURL = URL.documentsDirectory.appending(path: "Planifia.store")
             let config = ModelConfiguration(url: storeURL)
             container = try ModelContainer(for: schema, configurations: config)
+            
             container.mainContext.undoManager = UndoManager()
             let context = container.mainContext
             DataContext.shared.context = context
@@ -32,9 +33,6 @@ struct MyUndoApp: App {
         WindowGroup {
             ContentView( selectedType: "Month")
         }
-//        .commands {
-//            AppCommands()
-//        }
 
         .modelContainer(
             for: EntitySchedule.self,

@@ -6,9 +6,13 @@ import Combine
 
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.undoManager) private var undoManager
     
-//    @State private var sortOrder: [KeyPathComparator<EntitySchedule>] = []
+    @State var modelContext1 : ModelContext?
+    @State var undoManager1 : UndoManager?
 
+    
     var selectedScheduler: EntitySchedule? {
         guard let id = selectedItem else { return nil }
         return sortedSchedulers.first { $0.id == id }
@@ -16,9 +20,6 @@ struct ContentView: View {
 
     @State var schedulers: [EntitySchedule] = []
     
-    @State var modelContext : ModelContext?
-    @State var undoManager : UndoManager?
-
     @State private var selectedItem: EntitySchedule.ID?
     @State private var lastDeletedID: UUID?
 
@@ -60,6 +61,17 @@ struct ContentView: View {
             }
             .tableStyle(.bordered)
             .onAppear {
+                modelContext1 = DataContext.shared.context
+                if modelContext == modelContext1 {
+                    print("modelContext Idem")
+                }
+
+                undoManager1 = DataContext.shared.undoManager
+                if undoManager == undoManager1 {
+                    print("undoManager Idem")
+                }
+
+                
                 schedulers = SchedulerManager.shared.getAllData() ?? []
             }
             
@@ -90,6 +102,7 @@ struct ContentView: View {
                         .disabled( selectedItem == nil )
                 }
                 .buttonStyle(.plain) // pour éviter les bordures par défaut sur macOS
+                
                 Button(action: {
                     delete()
                 }) {
@@ -114,7 +127,7 @@ struct ContentView: View {
                     Label("Undo", systemImage: "arrow.uturn.backward")
                         .frame(minWidth: 100) // Largeur minimale utile
                         .padding()
-                        .background(canUndo == false ? Color.gray : Color.green)
+                        .background(canUndo == false ? Color.gray : Color.yellow)
                         .opacity(canUndo == false  ? 0.6 : 1)
                         .foregroundColor(.white)
                         .cornerRadius(8)
@@ -125,13 +138,12 @@ struct ContentView: View {
                     if let manager = undoManager, manager.canRedo {
                         manager.redo()
                         schedulers = SchedulerManager.shared.getAllData() ?? []
-                        
                     }
                 }) {
                     Label("Redo", systemImage: "arrow.uturn.forward")
                         .frame(minWidth: 100) // Largeur minimale utile
                         .padding()
-                        .background( canRedo == false ? Color.gray : Color.orange)
+                        .background( canRedo == false ? Color.gray : Color.yellow)
                         .opacity( canRedo  == false ? 0.6 : 1)
                         .foregroundColor(.white)
                         .cornerRadius(8)
@@ -141,8 +153,15 @@ struct ContentView: View {
             .padding()
         }
         .onAppear {
-            modelContext = DataContext.shared.context
-            undoManager = DataContext.shared.undoManager
+//            modelContext1 = DataContext.shared.context
+//            if modelContext == modelContext1 {
+//                print("modelContext Idem")
+//            }
+//
+//            undoManager1 = DataContext.shared.undoManager
+//            if undoManager == undoManager1 {
+//                print("undoManager Idem")
+//            }
         }
         .onChange(of: schedulers) { _, _ in
             if let restoredID = lastDeletedID,
